@@ -3,11 +3,13 @@ import { StyleSheet, Text, View } from "react-native";
 import ChatListItem from "./src/components/ChatListItem";
 import ChatsScreen from "./src/screens/ChatsScreen";
 import ChatScreen from "./src/screens/ChatScreen";
+import Navigator from "./src/navigation/index";
 
 const App = () => {
   return (
     <View style={styles.container}>
-      <ChatScreen />
+      {/* <ChatScreen /> */}
+      <Navigator />
       <StatusBar style="auto" />
     </View>
   );
@@ -16,11 +18,8 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    // backgroundColor: "yellow",
     justifyContent: "center",
-
-    // temp sytle
-    paddingVertical: 50,
   },
 });
 
