@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-builderstalk-staging-200823-authRole",
+      "UnauthRoleArn": "arn:aws:iam::474382260649:role/amplify-builderstalk-staging-200823-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::474382260649:role/amplify-builderstalk-staging-200823-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-builderstalk-staging-200823-deployment",
+      "UnauthRoleName": "amplify-builderstalk-staging-200823-unauthRole",
+      "StackName": "amplify-builderstalk-staging-200823",
+      "StackId": "arn:aws:cloudformation:us-east-1:474382260649:stack/amplify-builderstalk-staging-200823/3c298a60-77fd-11ed-b382-0e669b8130a3",
+      "AmplifyAppId": "d2wkj6wpmhn1on"
+    },
+    "categories": {
+      "auth": {
+        "BuildersTalk": {}
+      }
+    }
+  }
+}
