@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import {
   View,
-  Text,
   ImageBackground,
   StyleSheet,
   FlatList,
