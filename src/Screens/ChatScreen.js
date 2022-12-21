@@ -15,6 +15,7 @@ import InputBox from "../components/InputBox";
 const ChatScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
+  console.log("chat screen!!");
   useEffect(() => {
     navigation.setOptions({ title: route.params.name });
   }, [route.params.name]);

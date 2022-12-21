@@ -23,7 +23,7 @@ const App = () => {
       const userData = await API.graphql(
         graphqlOperation(getUser, { id: authUser.attributes.sub })
       );
-      console.log(userData);
+      // console.log(userData);
       // if there is no users in db, create one
       if (userData.data.getUser) {
         console.log("User already exists in DB");
@@ -36,11 +36,7 @@ const App = () => {
         status: "Hey, I am using this App",
       };
 
-      console.log(newUser);
-
-      const newUserResponse = await API.graphql(
-        graphqlOperation(createUser, { input: newUser })
-      );
+      await API.graphql(graphqlOperation(createUser, { input: newUser }));
     };
 
     syncUser();
@@ -48,8 +44,8 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      {/* <ChatScreen /> */}
       <Navigator />
+
       <StatusBar style="auto" />
     </View>
   );
