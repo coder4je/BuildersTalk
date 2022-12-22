@@ -11,12 +11,13 @@ dayjs.extend(relativeTime);
 const ContactListItem = ({ user }) => {
   const navigation = useNavigation();
 
+  // console.log(user);
   const onPress = async () => {
     console.log("Pressed");
     // check if we already have a ChatRoom with user
     const existingChatRoom = await getCommonChatRoomWithUser(user.id);
+    console.log(existingChatRoom);
     if (existingChatRoom) {
-      console.log("Existing");
       navigation.navigate("Chat", { id: existingChatRoom.id });
       return;
     }
