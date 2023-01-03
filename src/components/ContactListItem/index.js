@@ -31,6 +31,7 @@ const ContactListItem = ({ user }) => {
       console.log("Error creating the chat error");
     }
     const newChatRoom = newChatRoomData.data?.createChatRoom;
+    console.log(newChatRoom);
 
     // add the clicked user to the chatroom
     await API.graphql(
