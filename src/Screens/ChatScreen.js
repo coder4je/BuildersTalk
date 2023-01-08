@@ -1,3 +1,4 @@
+import * as React from "react";
 import { useEffect, useState } from "react";
 import {
   View,
@@ -14,6 +15,7 @@ import messages from "../../assets/data/messages.json";
 import InputBox from "../components/InputBox";
 import { API, graphqlOperation } from "aws-amplify";
 import { getChatRoom, listMessagesByChatRoom } from "../graphql/queries";
+import { onCreateMessage, onUpdateChatRoom } from "../graphql/subscriptions";
 
 const ChatScreen = () => {
   const [chatRoom, setChatRoom] = useState(null);
@@ -24,13 +26,32 @@ const ChatScreen = () => {
 
   const chatroomID = route.params.id;
 
+  // DEBUG!!
+  console.log("route" + route.key);
+
+  // fetch Chat Room
   useEffect(() => {
+    console.log("fetch message for " + chatroomID);
     API.graphql(graphqlOperation(getChatRoom, { id: chatroomID })).then(
       (result) => {
         setChatRoom(result.data?.getChatRoom);
       }
     );
-  }, []);
+
+    const subscription = API.graphql(
+      graphqlOperation(onUpdateChatRoom, { filter: { id: { eq: chatroomID } } })
+    ).subscribe({
+      next: ({ value }) => {
+        console.log("Updated");
+        console.log(value);
+        setChatRoom((cr) => ({
+          ...(cr || {}),
+          ...value.data.onUpdateChatRoom,
+        }));
+      },
+      error: (err) => console.warn(err),
+    });
+  }, [chatroomID]);
 
   // fetch messages
   useEffect(() => {
@@ -43,7 +64,23 @@ const ChatScreen = () => {
       console.log(result.data?.ListMessagesByChatRoom);
       setMessages(result.data?.ListMessagesByChatRoom?.items);
     });
-  }, []);
+
+    // Subscribe to new messages
+    const subscription = API.graphql(
+      graphqlOperation(onCreateMessage, {
+        filter: { chatroomID: { eq: chatroomID } },
+      })
+    ).subscribe({
+      next: ({ value }) => {
+        console.log("New Message");
+        console.log(value);
+        setMessages((m) => [value.data.onCreateMessage, ...m]);
+      },
+      error: (err) => console.warn(err),
+    });
+
+    return () => subscription.unsubscribe();
+  }, [chatroomID]);
 
   // console.log(messages.text);
 
@@ -55,7 +92,7 @@ const ChatScreen = () => {
     return <ActivityIndicator />;
   }
 
-  // console.log(chatRoom.Messages.items);
+  console.log(JSON.stringify(chatRoom));
 
   return (
     <KeyboardAvoidingView

@@ -2,55 +2,19 @@ import { StyleSheet, View, Text, Image, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { API, graphqlOperation, Auth } from "aws-amplify";
-import { createChatRoom, createChatRoomUser } from "../../graphql/mutations";
-import { getCommonChatRoomWithUser } from "../../Services/chatRoomService";
+import { AntDesign, FontAwesome } from "@expo/vector-icons";
 
 dayjs.extend(relativeTime);
 
-const ContactListItem = ({ user }) => {
+const ContactListItem = ({
+  user,
+  onPress = () => {},
+  selectable = true,
+  isSelected = false,
+}) => {
   const navigation = useNavigation();
 
   // console.log(user);
-  const onPress = async () => {
-    console.log("Pressed");
-    // check if we already have a ChatRoom with user
-    const existingChatRoom = await getCommonChatRoomWithUser(user.id);
-    console.log(existingChatRoom);
-    if (existingChatRoom) {
-      navigation.navigate("Chat", { id: existingChatRoom.id });
-      return;
-    }
-
-    // create a new chatroom
-    const newChatRoomData = await API.graphql(
-      graphqlOperation(createChatRoom, { input: {} })
-    );
-    // console.log(newChatRoomData);
-    if (!newChatRoomData.data?.createChatRoom) {
-      console.log("Error creating the chat error");
-    }
-    const newChatRoom = newChatRoomData.data?.createChatRoom;
-    console.log(newChatRoom);
-
-    // add the clicked user to the chatroom
-    await API.graphql(
-      graphqlOperation(createChatRoomUser, {
-        input: { chatRoomId: newChatRoom.id, userId: user.id },
-      })
-    );
-
-    //Add the auth user to the Chatroom
-    const authUser = await Auth.currentAuthenticatedUser();
-    await API.graphql(
-      graphqlOperation(createChatRoomUser, {
-        input: { chatRoomId: newChatRoom.id, userId: authUser.attributes.sub },
-      })
-    );
-
-    // navigate to the newly created Chatroom
-    navigation.navigate("Chat", { id: newChatRoom.id });
-  };
 
   return (
     <Pressable onPress={onPress} style={styles.container}>
@@ -63,6 +27,12 @@ const ContactListItem = ({ user }) => {
           {user.status}
         </Text>
       </View>
+      {selectable &&
+        (isSelected ? (
+          <AntDesign name="checkcircle" size={24} color="royalblue" />
+        ) : (
+          <FontAwesome name="circle-thin" size={24} color="lightgray" />
+        ))}
     </Pressable>
   );
 };
@@ -86,6 +56,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    marginRight: 10,
   },
   subTitle: {
     color: "gray",
