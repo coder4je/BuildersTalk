@@ -13,7 +13,7 @@ export const getCommonChatRoomWithUser = async (userID) => {
 
   // console.log("chatRooms is " + response);
 
-  console.log(chatRooms[0].chatRoom.Users.items[0]);
+  // console.log(chatRooms[0].chatRoom.Users.items[0]);
   const chatRoom = chatRooms.find((chatRoomItem) => {
     return;
     chatRoomItem.chatRoom.Users.items.length === 2 &&

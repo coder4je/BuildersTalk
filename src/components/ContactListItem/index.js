@@ -9,7 +9,7 @@ dayjs.extend(relativeTime);
 const ContactListItem = ({
   user,
   onPress = () => {},
-  selectable = true,
+  selectable = false,
   isSelected = false,
 }) => {
   const navigation = useNavigation();
