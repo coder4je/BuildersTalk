@@ -1,4 +1,11 @@
 export type AmplifyDependentResourcesAttributes = {
+    "api": {
+        "BuildersTalk": {
+            "GraphQLAPIKeyOutput": "string",
+            "GraphQLAPIIdOutput": "string",
+            "GraphQLAPIEndpointOutput": "string"
+        }
+    },
     "auth": {
         "BuildersTalk": {
             "IdentityPoolId": "string",
@@ -8,13 +15,6 @@ export type AmplifyDependentResourcesAttributes = {
             "UserPoolName": "string",
             "AppClientIDWeb": "string",
             "AppClientID": "string"
-        }
-    },
-    "api": {
-        "BuildersTalk": {
-            "GraphQLAPIKeyOutput": "string",
-            "GraphQLAPIIdOutput": "string",
-            "GraphQLAPIEndpointOutput": "string"
         }
     }
 }
