@@ -2,7 +2,7 @@ import { useState } from "react";
 import { View, TextInput, StyleSheet, Image } from "react-native";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { API, graphqlOperation, Auth } from "aws-amplify";
+import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { createMessage, updateChatRoom } from "../../graphql/mutations";
 import * as ImagePicker from "expo-image-picker";
 
@@ -63,6 +63,7 @@ const InputBox = ({ chatroom }) => {
       const response = await fetch(fileUri);
       const blob = await response.blob();
       const key = `${uuidv4()}.png`;
+
       await Storage.put(key, blob, {
         contentType: "image/png", // contentType is optional
       });
